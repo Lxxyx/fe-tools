@@ -28,3 +28,7 @@ Auto generate babel config
 
 Auto generate eslint config
 
+## fe ava
+
+Auto generate ava test suite and code coverage report config
+
