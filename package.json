@@ -4,7 +4,7 @@
   "description": "fe-tools for development",
   "main": "bin/fe",
   "bin": {
-    "fe": "bin/fe"
+    "fe": "bin/fe.js"
   },
   "dependencies": {
     "commander": "^2.9.0",
