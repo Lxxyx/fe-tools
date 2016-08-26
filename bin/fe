@@ -7,4 +7,5 @@ program
   .usage('<command>')
   .command('babel', 'set babel, use es2017')
   .command('eslint', 'set eslint')
+  .command('ava', 'set ava test')
   .parse(process.argv)
