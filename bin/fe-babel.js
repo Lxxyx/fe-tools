@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 const cwd = process.cwd()
+const which = require('which')
+const { cnpmInstall } = require('./../helper.js')
 
 const babelrc = path.resolve(cwd, '.babelrc')
 const packageJSON = path.resolve(cwd, 'package.json')
@@ -47,5 +49,10 @@ console.log('Insert new Babel dependencies at package.json')
 fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8', err => {
   if (err) throw err
   console.log('Success!')
-  console.log('You can run npm i to install new babel dependencies')
+  try {
+    which.sync('cnpm')
+    cnpmInstall()
+  } catch (e) {
+    console.log('You can run npm i to install new eslint devDependencies')
+  }
 })
