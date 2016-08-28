@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const cwd = process.cwd()
-const which = require('which')
 const { cnpmInstall } = require('./../helper.js')
 
 const eslintrc = path.resolve(cwd, '.eslintrc.js')
@@ -25,25 +24,8 @@ console.log('Generate new .eslintrc at ' + cwd)
 
 fs.writeFileSync(eslintrc, eslintConfig, 'utf-8')
 
-const packageConfig = JSON.parse(fs.readFileSync(packageJSON, 'utf-8'))
-
-if (!packageConfig.devDependencies) {
-  packageConfig.devDependencies = {}
+try {
+  cnpmInstall(['eslint', 'babel-eslint', 'eslint-config-vue', '-D'])
+} catch (e) {
+  console.log('You can run npm i to install new eslint devDependencies')
 }
-
-packageConfig.devDependencies['eslint'] = '*'
-packageConfig.devDependencies['babel-eslint'] = '*'
-packageConfig.devDependencies['eslint-config-vue'] = '*'
-
-console.log('Insert new Eslint devDependencies at package.json')
-
-fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8', err => {
-  if (err) throw err
-  console.log('Success!')
-  try {
-    which.sync('cnpm')
-    cnpmInstall()
-  } catch (e) {
-    console.log('You can run npm i to install new eslint devDependencies')
-  }
-})

@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const cwd = process.cwd()
-const which = require('which')
 const { cnpmInstall } = require('./../helper.js')
 
 const babelrc = path.resolve(cwd, '.babelrc')
@@ -32,27 +31,18 @@ fs.writeFileSync(babelrc, JSON.stringify(babelConfig, null, 2), 'utf-8')
 const packageConfig = JSON.parse(fs.readFileSync(packageJSON, 'utf-8'))
 
 if (!packageConfig.dependencies) {
-  packageConfig.dependencies = {}
-}
-
-for (const dep in packageConfig.dependencies) {
-  if (dep.includes('babel') && dep !== 'babel-register') {
-    delete packageConfig.dependencies[dep]
+  for (const dep in packageConfig.dependencies) {
+    if (dep.includes('babel') && dep !== 'babel-register') {
+      delete packageConfig.dependencies[dep]
+    }
   }
 }
 
-packageConfig.dependencies['babel-preset-es2017'] = '*'
-packageConfig.dependencies['babel-plugin-transform-es2015-modules-commonjs'] = '*'
+fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8')
 
-console.log('Insert new Babel dependencies at package.json')
+try {
+  cnpmInstall(['babel-preset-es2017', 'babel-plugin-transform-es2015-modules-commonjs', '-S'])
+} catch (e) {
+  console.log('You can run npm i to install new eslint devDependencies')
+}
 
-fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8', err => {
-  if (err) throw err
-  console.log('Success!')
-  try {
-    which.sync('cnpm')
-    cnpmInstall()
-  } catch (e) {
-    console.log('You can run npm i to install new eslint devDependencies')
-  }
-})

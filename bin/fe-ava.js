@@ -12,16 +12,6 @@ if (!fs.existsSync(packageJSON)) {
 
 const packageConfig = JSON.parse(fs.readFileSync(packageJSON, 'utf-8'))
 
-if (!packageConfig.devDependencies) {
-  packageConfig.devDependencies = {}
-}
-
-packageConfig.devDependencies['ava'] = '*'
-packageConfig.devDependencies['nyc'] = '*'
-packageConfig.devDependencies['tap-diff'] = '*'
-
-console.log('Insert new ava devDependencies at package.json')
-
 if (!packageConfig.scripts) {
   packageConfig.scripts = {}
 }
@@ -29,17 +19,27 @@ if (!packageConfig.scripts) {
 packageConfig.scripts['test'] = 'nyc ava | tap-diff'
 packageConfig.scripts['cover'] = 'nyc report --reporter=lcov'
 
-fs.mkdirSync(path.resolve(cwd, 'test'))
+const test = path.resolve(cwd, 'test')
+fs.mkdirSync(test)
 
-console.log('Insert test scripts and code cover report at package.json')
+if (packageConfig.main) {
+  const code = `import test from 'ava'
 
-fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8', err => {
-  if (err) throw err
-  console.log('Success!')
-  try {
-    which.sync('cnpm')
-    cnpmInstall()
-  } catch (e) {
-    console.log('You can run npm i to install new eslint devDependencies')
-  }
+test('', t => {
+  t.pass()
 })
+`
+  let main = path.basename(packageConfig.main)
+  main = main.replace('.js', '')
+  main = `${main}.test.js`
+  fs.writeFileSync(path.resolve(test, main), code, 'utf-8')
+}
+
+fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8')
+
+try {
+  cnpmInstall(['ava', 'nyc', 'tap-diff', '-D'])
+} catch (e) {
+  console.log('You can run npm i to install new eslint devDependencies')
+}
+
