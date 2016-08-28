@@ -7,7 +7,7 @@ exports.cnpmInstall = function cnpmInstall (dep) {
     which.sync('cnpm')
     console.log('Cnpm detected!')
     const spinner = ora('Install dependencies')
-    spinner.color = 'blue'
+    spinner.color = 'yellow'
     spinner.start()
     const cnpm = spawn('cnpm', ['install'].concat(dep))
     cnpm.stdout.on('data', data => console.log(data.toString()))
