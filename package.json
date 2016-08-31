@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
+    "install": "^0.8.1",
+    "npm": "^3.10.6",
     "ora": "^0.3.0",
+    "prompt": "^1.0.0",
     "which": "^1.2.10"
   },
   "repository": {

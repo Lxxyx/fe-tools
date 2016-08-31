@@ -38,7 +38,7 @@ test('', t => {
 fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8')
 
 try {
-  cnpmInstall(['ava', 'nyc', 'tap-diff', '-D'])
+  cnpmInstall(['ava', 'nyc', 'tap-diff'], '-D')
 } catch (e) {
   console.log('You can run npm i to install new eslint devDependencies')
 }

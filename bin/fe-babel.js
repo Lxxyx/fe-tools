@@ -41,7 +41,7 @@ if (!packageConfig.dependencies) {
 fs.writeFile(packageJSON, JSON.stringify(packageConfig, null, 2), 'utf-8')
 
 try {
-  cnpmInstall(['babel-preset-es2017', 'babel-plugin-transform-es2015-modules-commonjs', '-S'])
+  cnpmInstall(['babel-preset-es2017', 'babel-plugin-transform-es2015-modules-commonjs'], '-S')
 } catch (e) {
   console.log('You can run npm i to install new eslint devDependencies')
 }

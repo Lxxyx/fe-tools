@@ -25,7 +25,7 @@ console.log('Generate new .eslintrc at ' + cwd)
 fs.writeFileSync(eslintrc, eslintConfig, 'utf-8')
 
 try {
-  cnpmInstall(['eslint', 'babel-eslint', 'eslint-config-vue', '-D'])
+  cnpmInstall(['eslint', 'babel-eslint', 'eslint-config-vue'], '-D')
 } catch (e) {
   console.log('You can run npm i to install new eslint devDependencies')
 }

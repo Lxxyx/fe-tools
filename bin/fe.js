@@ -8,4 +8,5 @@ program
   .command('babel', 'set babel, use es2017')
   .command('eslint', 'set eslint')
   .command('ava', 'set ava test')
+  .command('vue', 'set vue bundle')
   .parse(process.argv)
