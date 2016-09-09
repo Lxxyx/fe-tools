@@ -9,4 +9,5 @@ program
   .command('eslint', 'set eslint')
   .command('ava', 'set ava test')
   .command('vue', 'set vue bundle')
+  .command('vue2', 'set vue2 bundle')
   .parse(process.argv)
